@@ -1,25 +1,34 @@
-FROM phusion/baseimage:0.9.17
-MAINTAINER EdenServers
+FROM phusion/baseimage:0.9.18
+MAINTAINER PoPs
 
-#Ubuntu requirements
-WORKDIR /etc/apt/sources.list.d
-RUN echo "deb http://old-releases.ubuntu.com/ubuntu/ raring main restricted universe multiverse" >ia32-libs-raring.list
+# Add the i386 architecture to the list of packages
 RUN dpkg --add-architecture i386
 RUN apt-get -y update
-RUN apt-get -y install ia32-libs
-RUN apt-get -y install wget
+# You don't need more libs to start the CSGO server
+RUN apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386
 
 #Steamcmd installation
 RUN mkdir -p /server/steamcmd
 RUN mkdir -p /server/csgo
 WORKDIR /server/steamcmd
-RUN wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
+RUN curl http://media.steampowered.com/client/steamcmd_linux.tar.gz > steamcmd_linux.tar.gz
 RUN tar -xvzf steamcmd_linux.tar.gz
 
-RUN apt-get install -y openssh-server rssh
-ADD rssh.conf /etc/rssh.conf
+# Don't use the RSSH facility
+# RUN apt-get install -y openssh-server rssh
+# ADD rssh.conf /etc/rssh.conf
 
-#Server config
+# Install and update the CSGO server
+WORKDIR /server/steamcmd
+RUN ./steamcmd.sh +login anonymous +force_install_dir /server/csgo +app_update 740 validate +quit
+# Add our custom server.cfg (should be done by yourself) 
+RUN mkdir -p /server/csgo/csgo/cfg
+ADD server.cfg /server/csgo/csgo/cfg/server.cfg
+ADD cfg /server/csgo/csgo/cfg/
+RUN mkdir -p /server/csgo/csgo/addons
+ADD addons /server/csgo/csgo/addons
+
+# Expose the CounterStrike port to the world
 EXPOSE 27015
 
 #Server Start
@@ -28,3 +37,4 @@ ADD start.sh /server/csgo/start.sh
 RUN chmod 755 /server/csgo/start.sh
 
 CMD ["/server/csgo/start.sh"]
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
