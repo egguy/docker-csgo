@@ -1,33 +1,22 @@
-# Official Counter-Strike : Global Offensive Container on EdenServers
+# Counter-Strike : Global Offensive ebot Container from EdenServers
 
-[![Run on EdenServers](https://img.shields.io/badge/EdenServers-view-blue.svg)](http://www.edenservers.us)
-[![](https://badge.imagelayers.io/edenservers/docker-csgo:latest.svg)](https://imagelayers.io/?images=edenservers/docker-csgo:latest 'Get your own badge on imagelayers.io')
 
 ![](http://image.noelshack.com/fichiers/2015/35/1440632013-csgo-logo1.png)
 
-All-in-one Counter-Strike : Global Offensive Server Container built for [EdenServers](http://www.edenservers.us).
-
-It also includes an SCP server.
+All-in-one Counter-Strike : Global Offensive Server Container built for [eBot](http://www.esport-tools.net/).
 
 ---
-
-**This image is meant to be used on an EdenServers Server.**
-
-Our images are built to specifically run for our services. You can run it directly with Docker though.
-
----
-### 1.0.0 (2015-08-27)
+### 0.0.1 (Inital version)
 
 This initial version contains:
 
-* *steamcmd*, and a pre-installed CS:GO Server
-* *scp* Server to upload and download files
-
+* *steamcmd*, and a complete CSGo server
+* 
 ---
 
 ## Install
 
-    $ docker pull edenservers/docker-csgo
+    $ make
 
 ---
 
@@ -59,3 +48,4 @@ Instructions for CS:GO config can be found [here](https://developer.valvesoftwar
 ---
 
 Made by [![EdenServers](http://image.noelshack.com/fichiers/2015/35/1440630894-logo.png)](https://www.edenservers.us)
+Modified by [CrazyPoPs](https://github.com/egguy/)
